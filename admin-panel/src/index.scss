@@ -457,3 +457,11 @@ input:-webkit-autofill:active {
         }
     }
 }
+
+.row {
+    margin: -0.8rem;
+
+    >div {
+        padding: 0.8rem;
+    }
+}

@@ -1,0 +1,33 @@
+@import "../../../assets/theme/_var.scss";
+
+.custom_btn {
+    height: 4.6rem;
+    border-radius: 0.8rem;
+    border: 0.1rem solid $baseclr;
+    outline: none;
+    font-size: 1.6rem;
+    font-weight: 400;
+    padding: 0 2.4rem;
+    transition: 300ms ease-in-out;
+    color: $white;
+    background-color: $baseclr;
+
+    .spinner {
+        .lds-spinner {
+            color: inherit;
+        }
+    }
+
+    &:enabled {
+        &:hover {
+            background-color: transparent;
+            color: $baseclr;
+        }
+    }
+
+    &:disabled {
+        background-color: $border !important;
+        border-color: rgba($black, 0.1) !important;
+        color: rgba($black, 0.5);
+    }
+}

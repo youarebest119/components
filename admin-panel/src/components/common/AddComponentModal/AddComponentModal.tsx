@@ -1,9 +1,10 @@
-import { Button, Modal } from "react-bootstrap";
-import Input from "../form/Input/Input";
-import Select from "react-select";
 import { useFormik } from "formik";
+import { Modal } from "react-bootstrap";
 import * as Yup from "yup";
 import Error from "../form/Error/Error";
+import Input from "../form/Input/Input";
+import Select from "../form/Select/Select";
+import Button from "../Button/Button";
 
 type PropTypes = {
     show: boolean,
@@ -88,13 +89,12 @@ const AddComponentModal = ({ show, handleClose }: PropTypes) => {
                     />
                     <ul>
                         {formik.values.tags.map((tag, index) => (
-                            <li key={index} style={{ display: "flex", alignItems: "center" }}>
+                            <li key={index}>
                                 <p>{tag}</p>
-                                <Button variant="link" onClick={() => handleRemoveTag(tag)} className="ms-2">x</Button>
+                                <button onClick={() => handleRemoveTag(tag)} className="ms-2">x</button>
                             </li>
                         ))}
                     </ul>
-
                     <Select
                         options={options}
                         onChange={handleTypeChange}
@@ -104,7 +104,7 @@ const AddComponentModal = ({ show, handleClose }: PropTypes) => {
                         <Error>{formik.errors.type}</Error>
                     ) : null}
 
-                    <Button type="submit" className="w-100 mt-5">Submit</Button>
+                    <Button type="submit" fluid className="mt-5">Submit</Button>
                 </form>
             </Modal.Body>
         </Modal>
