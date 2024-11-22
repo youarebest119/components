@@ -100,10 +100,13 @@ exports.deleteProduct = catchAsyncErrors(async (req, res) => {
         _id: req.params.id,
     }
     const product = await Product.deleteOne(query)
-    res.status(200).json({
-        success: true,
-        data: product,
-        message: "product deleted",
+    // res.status(200).json({
+    //     success: true,
+    //     data: product,
+    //     message: "product deleted",
+    // })
+    sendResponse(res, 200, "product deleted", {
+        data: product
     })
 })
 exports.updateProduct = catchAsyncErrors(async (req, res) => {

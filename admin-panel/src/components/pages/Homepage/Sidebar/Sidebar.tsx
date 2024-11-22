@@ -24,7 +24,7 @@ const Sidebar = ({ toggle, fetchComponents, active, handleClick, handleToggle, d
     useEffect(() => {
         setData(
             com.filter((item) =>
-                item.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase()))
+                item.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase())) || item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
             )
         )
     }, [search, com])

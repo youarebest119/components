@@ -30,4 +30,13 @@
         border-color: rgba($black, 0.1) !important;
         color: rgba($black, 0.5);
     }
+    &.danger_btn {
+        background-color: transparent;
+        border-color: $redclr;
+        color: $redclr;
+        &:hover {
+            color: $white;
+            background-color: $redclr;
+        }
+    }
 }

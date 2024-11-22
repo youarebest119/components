@@ -8,6 +8,6 @@ export const API = {
     CREATE_CODE: "products/:id/codes",
     CREATE_CODES: "products/:id/multiple-codes",
     GET_CODES: "products/:id/codes",
-    DELETE_CODE: "products/:id/codes/:id",
-    EDIT_CODE: "products/:id/codes/:id",
+    DELETE_CODE: "products/:productId/codes/:id",
+    EDIT_CODE: "products/:productId/codes/:id",
 }
