@@ -2,15 +2,15 @@
 
 .spinner {
     .lds-spinner {
-        color: $baseclr;
+        color: $black;
         display: inline-block;
         position: relative;
-        width: 3rem;
-        height: 3rem;
+        width: 2.4rem;
+        height: 2.4rem;
     }
 
     .lds-spinner div {
-        transform-origin: 1.5rem 1.5rem;
+        transform-origin: 1.2rem 1.2rem;
         animation: lds-spinner 1.2s linear infinite;
     }
 
@@ -19,9 +19,9 @@
         display: block;
         position: absolute;
         top: 0.2rem;
-        left: 1.5rem;
+        left: 1.2rem;
         width: 0.2rem;
-        height: 0.6rem;
+        height: 0.5rem;
         border-radius: 20%;
         background: currentColor;
     }

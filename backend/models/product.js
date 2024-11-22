@@ -17,6 +17,11 @@ const productSchema = mongoose.Schema({
         type: [String],
         validate: v => Array.isArray(v) && v.length > 0,
     },
+    show: {
+        type: Boolean,
+        required: true,
+        default: true,
+    },
     codes: [
         {
             name: {

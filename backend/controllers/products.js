@@ -5,31 +5,34 @@ const ErrorHandler = require("../utils/errorHandlers");
 const { sendResponse } = require("../utils/sendResponse");
 
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-    let {
-        type,
-        name,
-        description,
-        tags,
-        codes,
-    } = req.body;
+    let { type, name, description, tags, codes, show } = req.body;
 
-    let existedProduct = await Product.find({
-        name,
-        type,
+    // Normalize type and name for case-insensitivity
+    const normalizedType = type.toLocaleLowerCase().split(" ").join("-");
+    const normalizedName = name.toLocaleLowerCase().trim();
+
+    // Check if a product with the same name and type exists
+    let existedProduct = await Product.findOne({
+        name: normalizedName,
+        type: normalizedType,
     });
-    if (existedProduct.length > 0) {
-        return next(new ErrorHandler("Already Exists", 409));
+
+    if (existedProduct) {
+        return next(new ErrorHandler("Product with the same name and type already exists", 409));
     }
+
+    // Create and save the new product
     let product = new Product({
-        type: type.toLocaleLowerCase().split(" ").join("-"),
-        name,
+        type: normalizedType,
+        name: normalizedName,
         description,
         tags,
+        show,
         codes,
     });
     await product.save();
-    const newProduct = JSON.parse(JSON.stringify(product));
-    sendResponse(res, 200, "Product created", { data: newProduct, })
+
+    sendResponse(res, 200, "Product created successfully", { data: product });
 });
 
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
@@ -108,10 +111,13 @@ exports.updateProduct = catchAsyncErrors(async (req, res) => {
         _id: req.params.id
     }
     const product = await Product.updateOne(query, { ...req.body })
-    res.status(200).json({
-        success: true,
-        data: product,
-        message: "product updated",
+    // res.status(200).json({
+    //     success: true,
+    //     data: product,
+    //     message: "product updated",
+    // })
+    sendResponse(res, 200, "product updated", {
+        data: product
     })
 })
 
@@ -135,3 +141,84 @@ exports.getCategories = catchAsyncErrors(async (req, res) => {
     ]);
     sendResponse(res, 200, "product categories fetched", { data: product })
 })
+
+exports.addCodes = catchAsyncErrors(async (req, res, next) => {
+    const { id } = req.params; // Product ID
+    const { codes } = req.body; // Array of subitem details
+
+    if (!Array.isArray(codes) || codes.length === 0) {
+        return next(new ErrorHandler("Invalid input: 'codes' should be a non-empty array.", 400));
+    }
+
+    const product = await Product.findById(id);
+    if (!product) {
+        return next(new ErrorHandler("Product not found", 404));
+    }
+
+    // Add multiple codes to the product
+    product.codes.push(...codes);
+    await product.save();
+
+    sendResponse(res, 200, "Subitems added successfully", { data: product });
+});
+
+
+exports.addCode = catchAsyncErrors(async (req, res, next) => {
+    const { id } = req.params; // Product ID
+    const { code } = req.body; // Subitem details
+
+    const product = await Product.findById(id);
+    if (!product) {
+        return next(new ErrorHandler("Product not found", 404));
+    }
+
+    product.codes.push(code);
+    await product.save();
+
+    sendResponse(res, 200, "Subitem added successfully", { data: product });
+});
+
+exports.updateCode = catchAsyncErrors(async (req, res, next) => {
+    const { id, codeId } = req.params; // Product ID and Subitem ID
+    const { code } = req.body; // Updated subitem details
+
+    const product = await Product.findById(id);
+    if (!product) {
+        return next(new ErrorHandler("Product not found", 404));
+    }
+
+    const codeIndex = product.codes.findIndex(item => item._id.toString() === codeId);
+    if (codeIndex === -1) {
+        return next(new ErrorHandler("Subitem not found", 404));
+    }
+
+    product.codes[codeIndex] = { ...product.codes[codeIndex]._doc, ...code };
+    await product.save();
+
+    sendResponse(res, 200, "Subitem updated successfully", { data: product });
+});
+
+exports.deleteCode = catchAsyncErrors(async (req, res, next) => {
+    const { id, codeId } = req.params; // Product ID and Subitem ID
+
+    const product = await Product.findById(id);
+    if (!product) {
+        return next(new ErrorHandler("Product not found", 404));
+    }
+
+    product.codes = product.codes.filter(item => item._id.toString() !== codeId);
+    await product.save();
+
+    sendResponse(res, 200, "Subitem deleted successfully", { data: product });
+});
+
+exports.getCodes = catchAsyncErrors(async (req, res, next) => {
+    const { id } = req.params; // Product ID
+
+    const product = await Product.findById(id);
+    if (!product) {
+        return next(new ErrorHandler("Product not found", 404));
+    }
+
+    sendResponse(res, 200, "Subitems fetched successfully", { data: product.codes });
+});

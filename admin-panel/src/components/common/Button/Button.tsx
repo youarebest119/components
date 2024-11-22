@@ -2,6 +2,7 @@ import { ButtonHTMLAttributes } from "react";
 import { clsx } from "../../../utils/utils";
 import "./Button.scss";
 import Spinner from "../Spinner/Spinner";
+import { useAppSelector } from "../../../app/hooks";
 
 type PropTypes = ButtonHTMLAttributes<HTMLButtonElement> & {
     fluid?: boolean,
@@ -10,6 +11,7 @@ type PropTypes = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const Button = ({ children, loading, className, text, fluid, ...rest }: PropTypes) => {
+    const {button: buttonLoading} = useAppSelector(state => state.loading);
     return (
         <button
             type="button"
@@ -17,7 +19,7 @@ const Button = ({ children, loading, className, text, fluid, ...rest }: PropType
             className={clsx("custom_btn", className, fluid && "w-100")}
         >
             {
-                loading ?
+                (loading || buttonLoading) ?
                     <Spinner />
                     :
                     text || children
