@@ -1,0 +1,16 @@
+@import "../../../assets/theme/_var.scss";
+
+.copy_btn {
+    background-color: #EEF3F3;
+    color: #3F4144;
+    border: none;
+    outline: none;
+    padding: 0.8rem;
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 0.8rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}

@@ -1,0 +1,73 @@
+@import "../../../../assets/theme/_var.scss";
+
+.custom_select {
+    .select_in {
+        .select__control {
+            height: 4.6rem;
+            border-radius: 0.8rem;
+            border: 0.1rem solid $border;
+            outline: none;
+            font-size: 1.6rem;
+            font-weight: 400;
+            padding: 0 1.4rem 0 2.4rem;
+            cursor: pointer;
+            transition: 300ms ease-in-out;
+            color: $black;
+            box-shadow: none;
+            width: 100%;
+
+            .select__value-container,
+            .select__placeholder,
+            .select__input-container {
+                margin: 0;
+                padding: 0;
+            }
+
+            &.select__control--is-focused {
+                border-color: $baseclr;
+            }
+
+            .select__indicators {
+                .select__indicator-separator {
+                    display: none;
+                }
+            }
+
+            &.select__control--is-disabled {
+                background-color: $border !important;
+                border-color: rgba($black, 0.1) !important;
+            }
+        }
+
+        .select__menu {
+            border: 0.1rem solid $border;
+            border-radius: 0.8rem;
+
+            .select__menu-list {
+                .select__menu-notice {
+                    font-size: 1.4rem;
+                }
+
+                .select__option {
+                    font-size: 1.4rem;
+                    cursor: pointer;
+                    transition: 300ms ease-in-out;
+
+                    &:not(:last-child) {
+                        margin-bottom: 0.1rem;
+                    }
+
+                    &.select__option--is-focused {
+                        background-color: transparent;
+                    }
+
+                    &:hover,
+                    &.select__option--is-selected {
+                        color: $white;
+                        background-color: $baseclr;
+                    }
+                }
+            }
+        }
+    }
+}

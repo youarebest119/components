@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { PlusIcon } from "../../../../assets/icons/icons";
-import AddComponentModal from "../../../common/modals/AddComponentModal/AddComponentModal";
-import "./Sidebar.scss";
-import { componentType } from "../Homepage";
 import { useAppSelector } from "../../../../app/hooks";
 import Spinner from "../../../common/Spinner/Spinner";
+import { componentType } from "../Homepage";
+import "./Sidebar.scss";
 
 type PropTypes = {
     toggle: boolean,
@@ -18,7 +16,6 @@ type PropTypes = {
 const Sidebar = ({ toggle, fetchComponents, active, handleClick, handleToggle, data: com }: PropTypes) => {
     const [search, setSearch] = useState("");
     const [data, setData] = useState(com);
-    const [show, setShow] = useState(false);
     const { components: componentsLoading } = useAppSelector(state => state.loading);
 
     useEffect(() => {
@@ -57,12 +54,6 @@ const Sidebar = ({ toggle, fetchComponents, active, handleClick, handleToggle, d
                                         )
                                     })
                         }
-                        <li>
-                            <button type="button" className='add_btn' onClick={() => setShow(true)}>
-                                <PlusIcon />
-                            </button>
-                            {show && <AddComponentModal fetchComponents={fetchComponents} show={show} handleClose={() => setShow(false)} />}
-                        </li>
                     </ul>
                 </div>
             </div>

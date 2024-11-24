@@ -45,6 +45,7 @@ const AddItemsForm = ({ id, editCode, handleDismissEdit, activeTab, handleGetCod
                             },
                             showToast: true,
                         });
+                        handleDismissEdit();
                         handleGetCodes(componentId);
                     }
                     else {
@@ -56,6 +57,7 @@ const AddItemsForm = ({ id, editCode, handleDismissEdit, activeTab, handleGetCod
                             showToast: true,
                         })
                         handleGetCodes(componentId);
+                        handleDismissEdit();
                         formik.resetForm();
                     }
                 } catch (error) {
@@ -71,6 +73,8 @@ const AddItemsForm = ({ id, editCode, handleDismissEdit, activeTab, handleGetCod
         if (editCode && activeTab) {
             const { fileName, name, code, typescriptFileName, description, typescript } = activeTab;
             formik.setValues({ fileName, name, code, typescriptFileName, description, typescript })
+        } else {
+            formik.resetForm();
         }
     }, [editCode, activeTab])
 
