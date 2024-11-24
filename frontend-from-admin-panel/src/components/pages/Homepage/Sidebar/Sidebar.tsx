@@ -56,6 +56,12 @@ const Sidebar = ({ toggle, fetchComponents, active, handleClick, handleToggle, d
                         }
                     </ul>
                 </div>
+                {
+                    active && active.image &&
+                    <div className="mt-auto app_ui_sidebar_image">
+                        <img src={`http://localhost:4006/${active.image}`} alt={active.name} />
+                    </div>
+                }
             </div>
         </>
     )

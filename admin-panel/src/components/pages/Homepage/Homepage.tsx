@@ -34,6 +34,7 @@ export type componentType = {
     codes: codeType[],
     createdAt: string,
     updatedAt: string,
+    image?: string,
 }
 
 const Homepage = () => {

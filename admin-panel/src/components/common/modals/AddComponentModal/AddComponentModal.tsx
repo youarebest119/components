@@ -13,6 +13,7 @@ import Modal from "../Modal/Modal";
 import { useEffect } from "react";
 import Spinner from "../../Spinner/Spinner";
 import { componentType } from "../../../pages/Homepage/Homepage";
+import { RemoveICon } from "../../../../assets/icons/icons";
 
 type PropTypes = {
     show: boolean,
@@ -21,10 +22,22 @@ type PropTypes = {
     id?: string,
 }
 
+// type uploadedType = {
+//     image: {
+//        fieldname: string,
+//        originalname: string,
+//        encoding: string,
+//        mimetype: string,
+//        destination: string,
+//        filename: string,
+//        path: string,
+//        size: number,
+//     },
+// }
 
 const AddComponentModal = ({ id, fetchComponents, show, handleClose }: PropTypes) => {
     const dispatch = useAppDispatch();
-    const { component: componentLoading } = useAppSelector(state => state.loading);
+    const { component: componentLoading, uploading } = useAppSelector(state => state.loading);
     const options = [
         { value: "page", label: "Pages" },
         { value: "component", label: "Components" },
@@ -40,6 +53,7 @@ const AddComponentModal = ({ id, fetchComponents, show, handleClose }: PropTypes
             type: "",
             tagsInput: "", // Temporary field for capturing tag input
             description: "",
+            image: "",
         },
         validationSchema: Yup.object({
             name: Yup.string().required("Component name is required"),
@@ -77,9 +91,36 @@ const AddComponentModal = ({ id, fetchComponents, show, handleClose }: PropTypes
             }
         },
     });
+    const handleUpload = async (file: File) => {
+        dispatch(setLoading({ uploading: true, }));
+        try {
+            const formData = new FormData();
+            formData.append("image", file);
+            const response = await apiPost<{
+                image: {
+                    fieldname: string,
+                    originalname: string,
+                    encoding: string,
+                    mimetype: string,
+                    destination: string,
+                    filename: string,
+                    path: string,
+                    size: number,
+                },
+            }>({
+                url: API.UPLOAD_IMAGE,
+                data: formData,
+                showToast: true,
+            });
+            // formik.setFieldValue("image", response.data);
+            formik.setFieldValue("image", response.data.image.filename);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            dispatch(setLoading({ uploading: false, }));
+        }
 
-    // console.log({formik});
-    
+    }
     // Handle change for Select component (for "type")
     const handleTypeChange = (selectedOption: any) => {
         formik.setFieldValue("type", selectedOption ? selectedOption.value : "");
@@ -114,8 +155,8 @@ const AddComponentModal = ({ id, fetchComponents, show, handleClose }: PropTypes
                 let response = await apiGet<{ data: componentType }>({
                     url: API.GET_COMPONENT.replace(":id", id),
                 })
-                let { name, tags, description, type } = response.data.data;
-                formik.setValues({ name, tags, description, type, tagsInput: "", });
+                let { name, tags, description, type, image } = response.data.data;
+                formik.setValues({ name, tags, description, type, tagsInput: "", image: image || "", });
             } catch (error) {
                 console.log(error);
             } finally {
@@ -136,6 +177,28 @@ const AddComponentModal = ({ id, fetchComponents, show, handleClose }: PropTypes
                     </div>
                     :
                     <form onSubmit={formik.handleSubmit}>
+                        {
+                            formik.values.image ?
+                                <div className="uploaded_input">
+                                    <button type="button" onClick={() => formik.setFieldValue("image", "")} className="remove_btn"><RemoveICon /></button>
+                                    <img src={`http://localhost:4006/${formik.values.image}`} alt="uploaded" />
+                                </div>
+                                :
+                                uploading ?
+                                    <Spinner />
+                                    :
+                                    <input onChange={e => {
+                                        if (e.target.files) {
+                                            handleUpload(e.target.files[0])
+                                        }
+                                    }}
+                                        type="file"
+                                        name="image"
+                                        placeholder="Upload image"
+                                        className="mb-3"
+                                        accept="image/*"
+                                    />
+                        }
                         <Input
                             name="name"
                             placeholder="Name of component"

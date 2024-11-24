@@ -10,4 +10,5 @@ export const API = {
     GET_CODES: "products/:id/codes",
     DELETE_CODE: "products/:productId/codes/:id",
     EDIT_CODE: "products/:productId/codes/:id",
+    UPLOAD_IMAGE: "/upload/upload-single",
 }

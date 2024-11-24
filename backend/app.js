@@ -28,6 +28,7 @@ connectDb();
 const productRoutes = require("./routes/products");
 const { createProducts } = require("./data");
 app.use("/api/v1/products", productRoutes)
+app.use("/api/v1/upload", require("./routes/upload"));
 
 
 

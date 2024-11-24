@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlusIcon } from "../../../../assets/icons/icons";
 import AddComponentModal from "../../../common/modals/AddComponentModal/AddComponentModal";
 import "./Sidebar.scss";
@@ -49,11 +49,13 @@ const Sidebar = ({ toggle, fetchComponents, active, handleClick, handleToggle, d
                                 data.sort((a, b) => a.name.localeCompare(b.name))
                                     .map((item, index) => {
                                         return (
-                                            <li key={index}>
-                                                <button title={item.name} onClick={() => { handleClick(item); handleToggle(); }} type="button" className={item._id === active?._id ? "active" : ""}>
-                                                    {item.name}
-                                                </button>
-                                            </li>
+                                            <React.Fragment key={index}>
+                                                <li key={index}>
+                                                    <button title={item.name} onClick={() => { handleClick(item); handleToggle(); }} type="button" className={item._id === active?._id ? "active" : ""}>
+                                                        {item.name}
+                                                    </button>
+                                                </li>
+                                            </React.Fragment>
                                         )
                                     })
                         }
@@ -65,6 +67,12 @@ const Sidebar = ({ toggle, fetchComponents, active, handleClick, handleToggle, d
                         </li>
                     </ul>
                 </div>
+                {
+                    active && active.image &&
+                    <div className="mt-auto app_ui_sidebar_image">
+                        <img src={`http://localhost:4006/${active.image}`} alt={active.name} />
+                    </div>
+                }
             </div>
         </>
     )

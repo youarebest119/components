@@ -5,7 +5,7 @@ const ErrorHandler = require("../utils/errorHandlers");
 const { sendResponse } = require("../utils/sendResponse");
 
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-    let { type, name, description, tags, codes, show } = req.body;
+    let { type, name, description, tags, codes, show, image } = req.body;
 
     // Normalize type and name for case-insensitivity
     const normalizedType = type.toLocaleLowerCase().split(" ").join("-");
@@ -29,6 +29,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
         tags,
         show,
         codes,
+        image,
     });
     await product.save();
 
