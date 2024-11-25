@@ -3,6 +3,7 @@ import { useAppSelector } from "../../../../app/hooks";
 import Spinner from "../../../common/Spinner/Spinner";
 import { componentType } from "../Homepage";
 import "./Sidebar.scss";
+import { HOST } from "../../../../utils/constants";
 
 type PropTypes = {
     toggle: boolean,
@@ -43,7 +44,9 @@ const Sidebar = ({ toggle, fetchComponents, active, handleClick, handleToggle, d
                                     </button>
                                 </li>
                                 :
-                                data.sort((a, b) => a.name.localeCompare(b.name))
+                                data
+                                    .filter(item => item.show)
+                                    .sort((a, b) => a.name.localeCompare(b.name))
                                     .map((item, index) => {
                                         return (
                                             <li key={index}>
@@ -59,7 +62,7 @@ const Sidebar = ({ toggle, fetchComponents, active, handleClick, handleToggle, d
                 {
                     active && active.image &&
                     <div className="mt-auto app_ui_sidebar_image">
-                        <img src={`http://localhost:4006/${active.image}`} alt={active.name} />
+                            <img src={`http://${HOST}:4006/${active.image}`} alt={active.name} />
                     </div>
                 }
             </div>

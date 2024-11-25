@@ -2,8 +2,9 @@ import axios, { AxiosHeaders, AxiosInstance, AxiosRequestConfig, AxiosResponse }
 import toast from "react-hot-toast";
 import store from "../app/store";
 import { setLoading } from "../redux/slices/loading.slice";
+import { HOST } from "./constants";
 
-export const BASE_URL = "http://localhost:4006/api/v1/";
+export const BASE_URL = `http://${HOST}:4006/api/v1/`;
 
 const axiosApi: AxiosInstance = axios.create({
     baseURL: BASE_URL,

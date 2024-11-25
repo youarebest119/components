@@ -185,7 +185,7 @@ const Homepage = () => {
                                             </button>
                                             <div className="app_ui_content_header_right">
                                                 <div className="show_ts">
-                                                    <input type="checkbox" onChange={e => setIsTypescript(e.target.checked)} id="show-ts" />
+                                                    <input type="checkbox" checked={isTypescript} onChange={e => setIsTypescript(e.target.checked)} id="show-ts" />
                                                     <label htmlFor='show-ts'>Typescript</label>
                                                 </div>
                                                 {

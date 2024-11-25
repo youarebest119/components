@@ -11,3 +11,5 @@ export const API = {
     DELETE_CODE: "products/:productId/codes/:id",
     EDIT_CODE: "products/:productId/codes/:id",
 }
+
+export const HOST = window.location.hostname;
