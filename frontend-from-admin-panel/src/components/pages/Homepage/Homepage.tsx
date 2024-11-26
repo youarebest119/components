@@ -9,6 +9,7 @@ import CopyBtn from "../../common/CopyBtn/CopyBtn";
 import Spinner from "../../common/Spinner/Spinner";
 import "./Homepage.scss";
 import Sidebar from "./Sidebar/Sidebar";
+import moment from "moment";
 
 export type codeType = {
     name: string,
@@ -100,6 +101,15 @@ const Homepage = () => {
                                     </div>
                                     :
                                     <>
+                                        {
+                                            active &&
+                                            <div className="app_content_dates">
+                                                <ul>
+                                                    <li>Update <b>{moment(active.updatedAt).fromNow()}</b> </li>
+                                                    {/* <li>Created <b>{moment(active.updatedAt).fromNow()}</b> </li> */}
+                                                </ul>
+                                            </div>
+                                        }
                                         <div className="app_ui_content_header">
                                             <button type="button" className={`toggle_btn d-xl-none ${toggle ? "active" : ""}`} onClick={handleToggle}>
                                                 {Array.from({ length: 3 }).map((_, index) => <span key={index}></span>)}

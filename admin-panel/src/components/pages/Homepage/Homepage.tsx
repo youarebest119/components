@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import moment from 'moment';
 import { Container } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { EditIcon, PlusIcon, RemoveICon, SettingsIcon } from "../../../assets/icons/icons";
@@ -179,6 +180,15 @@ const Homepage = () => {
                                     </div>
                                     :
                                     <>
+                                        {
+                                            active &&
+                                            <div className="app_content_dates">
+                                                    <ul>
+                                                        <li>Update <b>{moment(active.updatedAt).fromNow()}</b> </li>
+                                                        {/* <li>Created <b>{moment(active.updatedAt).fromNow()}</b> </li> */}
+                                                </ul>
+                                            </div>
+                                        }
                                         <div className="app_ui_content_header">
                                             <button type="button" className={`toggle_btn d-xl-none ${toggle ? "active" : ""}`} onClick={handleToggle}>
                                                 {Array.from({ length: 3 }).map((_, index) => <span key={index}></span>)}
@@ -259,7 +269,7 @@ const Homepage = () => {
                                             <div className="code_content">
                                                 {
                                                     (showAddPage || editCode) ?
-                                                        <AddItemsForm handleDismissEdit={() => {setEditCode(false); setShowAddPage(false)}} editCode={editCode} activeTab={activeTab} handleGetCodes={handleGetCodes} componentId={active?._id} />
+                                                        <AddItemsForm handleDismissEdit={() => { setEditCode(false); setShowAddPage(false) }} editCode={editCode} activeTab={activeTab} handleGetCodes={handleGetCodes} componentId={active?._id} />
                                                         :
                                                         <pre>
                                                             {

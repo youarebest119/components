@@ -188,7 +188,7 @@ input:-webkit-autofill:active {
                 }
             }
 
-            ul {
+            >ul {
                 counter-reset: li-counter;
                 max-height: calc(100dvh - 16rem);
                 min-height: 10rem;
@@ -377,6 +377,7 @@ input:-webkit-autofill:active {
             max-width: calc(100% - 25rem);
             padding-left: 2rem;
             width: 100%;
+            position: relative;
 
             @media (max-width: 1199px) {
                 max-width: 100%;
@@ -388,6 +389,29 @@ input:-webkit-autofill:active {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+            }
+
+            .app_content_dates {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                z-index: 2;
+                pointer-events: none;
+                background-color: $white;
+                padding: 0.8rem;
+                border-radius: 0.8rem;
+                border: 1px solid $border;
+
+                ul {
+                    li {
+                        font-size: 1.2rem;
+                        font-family: $basefont;
+
+                        &:not(:last-child) {
+                            margin-bottom: 0.2rem;
+                        }
+                    }
+                }
             }
 
             .app_ui_content_header {
